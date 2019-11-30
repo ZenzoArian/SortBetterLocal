@@ -76,6 +76,7 @@ let winkelwagen = {
     this.items.forEach((item,index) => {
       if (item.ean == ean) {
         this.items.splice(index,1);
+        ean = 4;
       }
     })
     localStorage.setItem('besteldeBoeken', JSON.stringify(this.items));
@@ -85,6 +86,14 @@ let winkelwagen = {
       document.querySelector('.winkelwagen__aantal').innerHTML = "";
     }
     this.uitvoeren();
+  },
+
+  totaalPrijsBerekenen: function() {
+    let totaal = 0;
+    this.items.forEach( boek => {
+      totaal += boek.prijs;
+    });
+    return totaal;
   },
 
 
@@ -121,7 +130,19 @@ let winkelwagen = {
       document.getElementById('bestelling').appendChild(sectie);
 
     });
+    let sectie = document.createElement('section');
+    sectie.className = 'besteldBoek';
 
+    let totaalTekst = document.createElement('div');
+    totaalTekst.className = 'besteldBoek__totaal-prijs';
+    totaalTekst.innerHTML = 'Totaal: ';
+
+    let totaalPrijs = document.createElement('div');
+    totaalPrijs.textContent = this.totaalPrijsBerekenen().toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'});
+
+    sectie.appendChild(totaalTekst);
+    sectie.appendChild(totaalPrijs);
+    document.getElementById('bestelling').appendChild(sectie);
     if (this.items.length > 0) {
       document.querySelector('.winkelwagen__aantal').innerHTML = this.items.length;
     }else {
