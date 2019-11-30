@@ -134,10 +134,11 @@ let winkelwagen = {
     sectie.className = 'besteldBoek';
 
     let totaalTekst = document.createElement('div');
-    totaalTekst.className = 'besteldBoek__totaal-prijs';
+    totaalTekst.className = 'besteldBoek__totaal-tekst';
     totaalTekst.innerHTML = 'Totaal: ';
 
     let totaalPrijs = document.createElement('div');
+    totaalPrijs.className = 'besteldBoek__totaal-prijs';
     totaalPrijs.textContent = this.totaalPrijsBerekenen().toLocaleString('nl-NL', {currency: 'EUR', style: 'currency'});
 
     sectie.appendChild(totaalTekst);

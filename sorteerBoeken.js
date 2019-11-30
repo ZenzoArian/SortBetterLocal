@@ -118,7 +118,10 @@ let winkelwagen = {
       bestelling = [];
     }else {
       bestelling = JSON.parse(localStorage.getItem('besteldeBoeken'));
-      this.uitvoeren;
+      bestelling.forEach( item => {
+        this.items.push(item);
+      })
+      this.uitvoeren();
     }
     return bestelling;
   },
