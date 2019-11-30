@@ -108,6 +108,32 @@ const keerTekstOm = (string) => {
   }
   return string;
 }
+
+let winkelwagen = {
+  items: [],
+
+  haalItemsOp: function() {
+    let bestelling;
+    if( localStorage.getItem('besteldeBoeken') == null ){
+      bestelling = [];
+    }else {
+      bestelling = JSON.parse(localStorage.getItem('besteldeBoeken'));
+      document.querySelector('.winkelwagen__aantal').innerHTML = bestelling.length;
+    }
+    return bestelling;
+  },
+
+  toevoegen: function(el) {
+    this.items = this.haalItemsOp();
+    this.items.push(el);
+    localStorage.setItem('besteldeBoeken', JSON.stringify(this.items));
+    document.querySelector('.winkelwagen__aantal').innerHTML = this.items.length;
+  }
+
+}
+
+winkelwagen.haalItemsOp();
+
 //object dat de boeken uitvoert en sorteert
 //eigenschap: data sorteerkenmerk
 //methods: sorteren() en uitvoeren()
@@ -169,6 +195,9 @@ let sorteerBoekObj = {
       let knop = document.createElement('button');
       knop.className = 'boekSelectie__knop';
       knop.innerHTML = 'voeg toe aan<br>winkelwagen';
+      knop.addEventListener('click', () => {
+        winkelwagen.toevoegen(boek);
+      })
 
       sectie.appendChild(afbeelding);
       main.appendChild(titel);
