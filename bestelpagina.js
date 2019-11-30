@@ -65,7 +65,6 @@ let winkelwagen = {
       bestelling = [];
     }else {
       bestelling = JSON.parse(localStorage.getItem('besteldeBoeken'));
-      document.querySelector('.winkelwagen__aantal').innerHTML = bestelling.length;
     }
     bestelling.forEach( item => {
       this.items.push(item);
@@ -74,7 +73,18 @@ let winkelwagen = {
   },
 
   verwijderItem: function(ean) {
-
+    this.items.forEach((item,index) => {
+      if (item.ean == ean) {
+        this.items.splice(index,1);
+      }
+    })
+    localStorage.setItem('besteldeBoeken', JSON.stringify(this.items));
+    if (this.items.length>0) {
+      document.querySelector('.winkelwagen__aantal').innerHTML = this.items.length;
+    }else {
+      document.querySelector('.winkelwagen__aantal').innerHTML = "";
+    }
+    this.uitvoeren();
   },
 
 
@@ -99,6 +109,9 @@ let winkelwagen = {
 
       let verwijder = document.createElement('div');
       verwijder.className = 'besteldBoek__verwijder';
+      verwijder.addEventListener('click', () => {
+        this.verwijderItem(boek.ean);
+      })
 
       sectie.appendChild(afbeelding);
       sectie.appendChild(titel);
@@ -108,6 +121,12 @@ let winkelwagen = {
       document.getElementById('bestelling').appendChild(sectie);
 
     });
+
+    if (this.items.length > 0) {
+      document.querySelector('.winkelwagen__aantal').innerHTML = this.items.length;
+    }else {
+      document.querySelector('.winkelwagen__aantal').innerHTML = '';
+    }
   }
 
 }
